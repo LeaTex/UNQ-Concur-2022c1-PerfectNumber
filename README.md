@@ -12,3 +12,5 @@
 |----------------|--------------------------|--------|----------|
 | Malsam Leandro | leandro.malsam@gmail.com | 43779  | leatex   |
 | Soñez Mailín   | mailinsonez@gmail.com    | 28708  | mailinsz |
+
+Informe: https://leatex.github.io/UNQ-Concur-2022c1-PerfectNumber/docs/informe
