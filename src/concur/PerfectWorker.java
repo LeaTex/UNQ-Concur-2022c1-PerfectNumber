@@ -4,10 +4,32 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerfectWorker {
+public class PerfectWorker extends Thread {
     // Una clase PerfectWorker que extiende de Thread y realiza la verificación de si un
     //número es perfecto o no. Un PerfectWorker debe tomar los números a verificar
     //de un Buffer conocido al momento de su creación.
+
+    private Buffer buffer;
+    private Founded founded;
+
+    public PerfectWorker (Buffer buffer, Founded founded){
+        this.buffer = buffer;
+        this.founded = founded;
+    }
+
+    @Override
+    public void run() {
+
+        while (!this.founded.isComplete()) {
+            try {
+                var candidate = this.buffer.next();
+                if (this.isPerfectNumber(candidate))
+                    System.out.println("número perfecto encontrado");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public List<BigInteger> properDivisors(BigInteger number) {
         List<BigInteger> properDivisors = new ArrayList<>();
