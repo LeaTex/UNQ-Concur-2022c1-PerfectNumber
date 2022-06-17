@@ -9,7 +9,7 @@ public class Main {
 //    transcurrido desde el inicio de la ejecución.
 
     public Buffer buffer;
-    public Founded founded;
+    public Buffer founded;
 
     public Main (int bufferSize, int threadsQuantity, int numberQuntity){
         this.buffer = buffer;
@@ -24,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) {
         long initialTime = System.currentTimeMillis();
-        long endTime = (System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
         System.out.println("");
     }
 }

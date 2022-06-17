@@ -3,13 +3,32 @@ package concur;
 import java.math.BigInteger;
 
 public class Buffer {
-    //Una clase Buffer (implementada como un monitor utilizando métodos synchroni-
-    //zed) que actúa como una cola FIFO concurrente de capacidad acotada. Es decir,
-    //bloquea a un lector intentando sacar un elemento cuando está vacı́a y bloquea a
-    //un productor intentando agregar un elemento cuando está llena. La capacidad del
-    //Buffer también debe ser un parámetro configurable desde la clase Main.
 
-    public BigInteger next() {
-        return BigInteger.ONE;
+    private BigInteger[] data;
+    private int begin = 0, end = 0;
+
+    public Buffer(int size){
+        this.data = new BigInteger[size+1];
     }
+
+    synchronized BigInteger read () throws InterruptedException {
+        while (this.isEmpty ()) { wait (); }
+        BigInteger result = data[end];
+        end = this.next(end);
+        notifyAll ();
+        return result;
+    }
+
+    synchronized void write(BigInteger number) throws InterruptedException {
+        while (this.isFull ()) { wait (); }
+        data[begin] = number;
+        begin = this.next(begin);
+        notifyAll ();
+    }
+
+    public boolean isEmpty () { return begin == end; }
+
+    public boolean isFull () { return next(begin) == end; }
+
+    public int next(int i) { return (i+1) % (data.length); }
 }
