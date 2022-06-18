@@ -16,16 +16,19 @@ public class PerfectWorker extends Thread {
 
     @Override
     public void run() {
-        while (!this.founded.isFull()) {
-            try {
-                var candidate = this.buffer.read();
+        try {
+            var candidate = this.buffer.read();
+            while (candidate.signum() == 1) {
                 if (this.isPerfectNumber(candidate)) {
                     System.out.println("Worker PID "+ Thread.currentThread().getId() + " found perfect number " + candidate);
                     founded.write(candidate);}
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+                candidate = this.buffer.read();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println(">>> Worker PID "+ Thread.currentThread().getId() + " finalized");
     }
 
     public List<BigInteger> properDivisors(BigInteger number) {

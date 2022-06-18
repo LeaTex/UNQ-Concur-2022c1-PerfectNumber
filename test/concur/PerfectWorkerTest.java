@@ -67,6 +67,7 @@ class PerfectWorkerTest {
         var founded = new Buffer(1);
         var worker = new PerfectWorker(buffer, founded);
         worker.start();
+        buffer.write(BigInteger.valueOf(-1));
 
         assertEquals(BigInteger.valueOf(6), founded.read());
     }
@@ -83,6 +84,8 @@ class PerfectWorkerTest {
         var worker = new PerfectWorker(buffer, founded);
         worker.start();
 
+        buffer.write(BigInteger.valueOf(-1));
+
         assertEquals(BigInteger.valueOf(6), founded.read());
         assertEquals(BigInteger.valueOf(496), founded.read());
     }
@@ -90,16 +93,20 @@ class PerfectWorkerTest {
     @Test
     void testTwoWorkerFindTwoPerfectsNumbers() throws InterruptedException {
         var buffer = new Buffer(5);
-        buffer.write(BigInteger.valueOf(7000));
         buffer.write(BigInteger.valueOf(7500));
         buffer.write(BigInteger.valueOf(8000));
         buffer.write(BigInteger.valueOf(8128));
         buffer.write(BigInteger.valueOf(33550336));
+
         var founded = new Buffer(2);
+
         var workerOne = new PerfectWorker(buffer, founded);
         var workerTwo = new PerfectWorker(buffer, founded);
         workerOne.start();
         workerTwo.start();
+
+        buffer.write(BigInteger.valueOf(-1));
+        buffer.write(BigInteger.valueOf(-1));
 
         List<BigInteger> expected = Arrays.asList(founded.read(), founded.read());
 
