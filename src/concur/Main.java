@@ -1,6 +1,8 @@
 package concur;
 
-public class Main {
+import java.math.BigInteger;
+
+public class Main implements Runnable{
 //    Una clase Main con el punto de entrada del programa, tiene la responsabilidad de
 //    inicializar las estructuras mencionadas a continuación y producir números enteros
 //    grandes (BigInteger) consecutivos para que múltiples threads verifiquen si son
@@ -11,9 +13,9 @@ public class Main {
     public Buffer buffer;
     public Buffer founded;
 
-    public Main (int bufferSize, int threadsQuantity, int numberQuntity){
-        this.buffer = buffer;
-        this.founded = founded;
+    public Main(int bufferSize, int threadsQuantity, int numbersQuntity){
+        this.buffer = new Buffer(bufferSize);
+        this.founded = new Buffer(numbersQuntity);
     }
 
     // Al iniciar el programa la clase Main debe delegar la iniciación de los threads necesarios
@@ -23,8 +25,30 @@ public class Main {
     //de threads menor a la solicitada por el usuario.
 
     public static void main(String[] args) {
+        Runnable proceso1 = new Main(6, 2, 2);
+        new Thread(proceso1).start();
+    }
+
+    @Override
+    public void run() {
         long initialTime = System.currentTimeMillis();
+
+        var number = BigInteger.ONE;
+        while (!this.founded.isFull()) {
+            try {
+                number = number.add(BigInteger.ONE);
+                this.buffer.write(number);
+
+                // TODO: eliminar las siguientes líneas
+                Thread.sleep(500);
+                this.founded.write(number);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         long endTime = System.currentTimeMillis();
-        System.out.println("");
+        System.out.println("Tiempo empleado " + (endTime - initialTime) + " milisegundos");
+        System.out.println(this.founded);
     }
 }

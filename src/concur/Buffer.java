@@ -1,6 +1,7 @@
 package concur;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class Buffer {
 
@@ -11,7 +12,7 @@ public class Buffer {
         this.data = new BigInteger[size+1];
     }
 
-    synchronized BigInteger read () throws InterruptedException {
+    public synchronized BigInteger read () throws InterruptedException {
         while (this.isEmpty ()) { wait (); }
         BigInteger result = data[end];
         end = this.next(end);
@@ -19,7 +20,7 @@ public class Buffer {
         return result;
     }
 
-    synchronized void write(BigInteger number) throws InterruptedException {
+    public synchronized void write(BigInteger number) throws InterruptedException {
         while (this.isFull ()) { wait (); }
         data[begin] = number;
         begin = this.next(begin);
@@ -31,4 +32,15 @@ public class Buffer {
     public boolean isFull () { return next(begin) == end; }
 
     public int next(int i) { return (i+1) % (data.length); }
+
+    public String toString() {
+        // TODO: esto se puede mejorar
+        String toString = "[";
+        for(int i = this.end; i < data.length; i++) {
+            if (Objects.nonNull(data[i]))
+                toString = toString + data[i].toString() + ", ";
+        }
+        toString = toString + "]";
+        return toString;
+    }
 }
