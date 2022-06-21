@@ -25,7 +25,7 @@ public class Main implements Runnable{
 
         this.threadPool.launch();
 
-        var number = BigInteger.ONE;
+        BigInteger number = BigInteger.ONE;
         while (!this.founded.isFull()) {
             try {
                 number = number.add(BigInteger.ONE);

@@ -17,7 +17,7 @@ public class PerfectWorker extends Thread {
     @Override
     public void run() {
         try {
-            var candidate = this.buffer.read();
+            BigInteger candidate = this.buffer.read();
             while (candidate.signum() == 1) {
                 if (this.isPerfectNumber(candidate)) {
                     System.out.println("Worker PID "+ Thread.currentThread().getId() + " found perfect number " + candidate);
@@ -39,7 +39,8 @@ public class PerfectWorker extends Thread {
         }
 
         BigInteger candidate = BigInteger.valueOf(2);
-        BigInteger biggestDivisor = number.sqrt();
+        // BigInteger biggestDivisor = number.sqrt();
+        BigInteger biggestDivisor = this.sqrt(number);
 
         properDivisors.add(BigInteger.ONE);
         while (candidate.compareTo(biggestDivisor) != 1) {  // (candidate <= biggestDivisor) OR !(candidate > biggestDivisor)
@@ -59,5 +60,20 @@ public class PerfectWorker extends Thread {
 
     public BigInteger aliquotSum(BigInteger number) {
         return this.properDivisors(number).stream().reduce(BigInteger.ZERO, BigInteger::add);
+    }
+    
+    public static BigInteger sqrt(BigInteger val) {
+        BigInteger half = BigInteger.ZERO.setBit(val.bitLength() / 2);
+        BigInteger cur = half;
+
+        while (true) {
+            BigInteger tmp = half.add(val.divide(half)).shiftRight(1);
+
+            if (tmp.equals(half) || tmp.equals(cur))
+                return tmp;
+
+            cur = half;
+            half = tmp;
+        }
     }
 }

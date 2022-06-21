@@ -11,35 +11,35 @@ class MainTest {
 
     @Test
     void scenarioBuffer16Threads1() {
-        var mainProcesss = new Main(16, 1, 4);
+        Main mainProcesss = new Main(16, 1, 4);
         mainProcesss.run();
         assertEquals(1, 1);
     }
 
     @Test
     void scenarioBuffer16Threads2() {
-        var mainProcesss = new Main(16, 2, 4);
+        Main mainProcesss = new Main(16, 2, 4);
         mainProcesss.run();
         assertEquals(1, 1);
     }
 
     @Test
     void scenarioBuffer16Threads4() {
-        var mainProcesss = new Main(16, 4, 4);
+        Main mainProcesss = new Main(16, 4, 4);
         mainProcesss.run();
         assertEquals(1, 1);
     }
 
     @Test
     void scenarioBuffer16Threads8() {
-        var mainProcesss = new Main(16, 8, 4);
+        Main mainProcesss = new Main(16, 8, 4);
         mainProcesss.run();
         assertEquals(1, 1);
     }
 
     @Test
     void scenarioBuffer16Threads16() {
-        var mainProcesss = new Main(16, 16, 4);
+        Main mainProcesss = new Main(16, 16, 4);
         mainProcesss.run();
         assertEquals(1, 1);
     }
