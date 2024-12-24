@@ -4,7 +4,7 @@
 
 ## 1er cuatrimestre 2022
 
-## Perfecto Number
+## Perfect Number
 
 **Integrantes**:
 
